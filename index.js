@@ -9,11 +9,11 @@ exports.run = function(setting, params) {
     var url = require('url');
     let u = url.parse(setting.storage);
     setting.protcol = u.protocol;
-    log.info('Strage protcol=' + setting.protcol, +" / URL=" + setting.storage);
+    log.info('Strage:' + setting.storage);
     switch (setting.protcol) {
         case 'mongodb:':
             storage = require('./storage_mongodb.js');
-            log.trace('SUCCESS: Storage Type: ' + setting.protcol);
+            log.debug('SUCCESS: Storage Type: ' + setting.protcol);
             break;
         default:
             log.fatal('Invalid storage type:' + setting.storage);
@@ -70,27 +70,27 @@ exports.run = function(setting, params) {
                                         delete newTask.parameter.max_upload_date;
                                         if (pages > 10 && newTask.cursor.window >= newTask.cursor.delta * 2) {
                                             /* pages が10より大きくWindowsサイズもdelta*2以上の場合はwindowを半分にして再クロール(写真は登録しない)*/
-                                            log.debug("\tDecrease window size. [" + newTask.cursor.window + " -> " + Math.ceil(newTask.cursor.window / 2) + "]");
+                                            log.info("\tDecrease window size. [" + newTask.cursor.window + " -> " + Math.ceil(newTask.cursor.window / 2) + "]");
                                             newTask.cursor.window　 = Math.ceil(newTask.cursor.window / 2);
                                             photos = [];
                                         } else if (pages > 10 && page >= 10) {
-                                            log.debug("\tGive up! (" + pages + " pages in " + newTask.cursor.window + " sec.)");
+                                            log.info("\tGive up! (" + pages + " pages in " + newTask.cursor.window + " sec.)");
                                             newTask.cursor.current += newTask.cursor.window;
                                             newTask.parameter.page = 1;
                                         } else if (pages <= 2 && pages == page) {
                                             /* pagesが2以下の場合でかつ最終頁まで来た場合はwindowを倍に拡張(写真は登録) */
-                                            log.debug("\tIncrease window size. [" + newTask.cursor.window + " -> " + (newTask.cursor.window * 2) + "]");
+                                            log.info("\tIncrease window size. [" + newTask.cursor.window + " -> " + (newTask.cursor.window * 2) + "]");
                                             newTask.cursor.current += newTask.cursor.window;
                                             newTask.parameter.page = 1;
                                             newTask.cursor.window　 = newTask.cursor.window * 2;
                                         } else if (pages == page) {
                                             /* 最終頁まで来たので次のdeltaへ*/
-                                            log.debug("\tGo to next Window.");
+                                            log.info("\tGo to next Window.");
                                             newTask.cursor.current += newTask.cursor.window;
                                             newTask.parameter.page = 1;
-                                        } else if (photos.length == 250) {
+                                        } else if (page < pages && photos.length > 0) {
                                             /* まだ写真があるので次のpageへ */
-                                            log.debug("\tGo to next Page.");
+                                            log.info("\tGo to next Page.");
                                             newTask.parameter.page++;
                                         } else {
                                             /* Flickrの動作がおかしいのでとりあえず次のdeltaへ進む*/
@@ -106,22 +106,21 @@ exports.run = function(setting, params) {
                                             newTask = [newTask];
                                         }
                                         storage.setTasks(newTask, function(err) {
-                                            log.debug("setTasks done.");
+                                            log.trace("setTasks done.");
                                             storage.setPhotos(photos, function(err) {
                                                 if (err) {
-                                                    log.warn("MONGO ERROR");
                                                     if (err.writeErrors) {
                                                         log.warn("Duplicate PhotoID");
                                                         async.eachSeries(err.writeErrors, function(error, cb) {
                                                             if (error.code == 11000) {
                                                                 let op = error.toJSON().op;
-                                                                log.warn(op.id + " | " + op.dateupload);
+                                                                log.trace(op.id + " | " + op.dateupload);
                                                             } else {
-                                                                log.warn(error.id + "\t" + error.errmsg);
+                                                                log.trace(error.id + "\t" + error.errmsg);
                                                             }
                                                             cb(null);
                                                         }, function() {
-                                                            log.debug(err.writeErrors.length + " errors are reported.");
+                                                            log.warn(err.writeErrors.length + " errors are reported.");
                                                         });
                                                     } else {
                                                         log.warn(err.message);
