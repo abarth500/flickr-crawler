@@ -3,7 +3,7 @@ var flickr = require('flickr-search');
 var log4js = require('log4js');
 
 exports.run = function(setting, params) {
-    log4js.configure('./log4js.json');
+    log4js.configure(__dirname + '/log4js.json');
     var log = log4js.getLogger('logging');
     var storage = null;
     var url = require('url');
@@ -12,7 +12,7 @@ exports.run = function(setting, params) {
     log.info('Strage:' + setting.storage);
     switch (setting.protcol) {
         case 'mongodb:':
-            storage = require('./storage_mongodb.js');
+            storage = require(__dirname + '/storage_mongodb.js');
             log.debug('SUCCESS: Storage Type: ' + setting.protcol);
             break;
         default:
@@ -77,7 +77,7 @@ exports.run = function(setting, params) {
                                             log.info("\tGive up! (" + pages + " pages in " + newTask.cursor.window + " sec.)");
                                             newTask.cursor.current += newTask.cursor.window;
                                             newTask.parameter.page = 1;
-                                        } else if (pages <= 2 && pages == page) {
+                                        } else if (pages == 0 || (pages <= 2 && pages == page)) {
                                             /* pagesが2以下の場合でかつ最終頁まで来た場合はwindowを倍に拡張(写真は登録) */
                                             log.info("\tIncrease window size. [" + newTask.cursor.window + " -> " + (newTask.cursor.window * 2) + "]");
                                             newTask.cursor.current += newTask.cursor.window;

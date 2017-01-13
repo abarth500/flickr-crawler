@@ -6,7 +6,7 @@ var log4js = require('log4js');
 var log;
 
 exports.init = function(mongourl, callback) {
-    log4js.configure('./log4js.json');
+    log4js.configure(__dirname + '/log4js.json');
     log = log4js.getLogger('logging');
     var MongoClient = require('mongodb').MongoClient;
     var url = mongourl; /*'mongodb://localhost:27017/sample1';*/

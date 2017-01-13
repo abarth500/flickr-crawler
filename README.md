@@ -6,15 +6,21 @@
 2. Install this.
 
 ```
-npm install -g flickr-crawler
-npm install -g forever
-```
-You can also install to local. (bin/bin.js is the start point of the crawler.)
-```
 npm install flickr-crawler
+npm install -g forever
 ```
 
 3. Set Api Key of Flickr
+* Find (or Create) Your API KEY
+  * https://www.flickr.com/services/apps/
+* And Set the KEY
+```
+# node  $(npm bin)/flickr-crawler
+Your Flickr's API key? ******************************
+OK!
+Your Flickr's API Secret? ****************************
+YES!
+```
 
 4. Update parameter file (See ./parameter.json)
 ```
@@ -47,7 +53,7 @@ npm install flickr-crawler
 
 ## Usage
 ```
-# flickr-crawler
+# forever start -m 1  $(npm bin)/flickr-crawler
 ```
 
 ```
@@ -93,7 +99,7 @@ npm install flickr-crawler
 # Start Crawling
 ## Execute
 ```
-# forever start -m 1 bin/bin.js -c 
+# forever start -m 1 --workingDir . $(npm bin)/flickr-crawler -s mongodb://localhost:27017/test
 ```
 
 
@@ -101,17 +107,17 @@ npm install flickr-crawler
 1. Check the path to the log file
 ```
 # forever list
-data:    [2] P4Gl /usr/bin/node bin/bin.js -s mongodb://localhost:27017/test 1572    1578 /home/user/.forever/P4Gl.log 0:0:0:2.637
+data:    [2] P4Gl /usr/bin/node path/to/the/bin.js -s mongodb://localhost:27017/test 1572    1578 /home/user/.forever/P4Gl.log 0:0:0:2.637
 ```
 2. Open the file
 ```
-tail -f /home/user/.forever/P4Gl.log
+# tail -f /home/user/.forever/P4Gl.log
 ```
 
 ## Result
 ### Number Of photographs
 ```
-mongo *database-name*
+# mongo *database-name*
 > db.flickr_photo.count()
 1293103
 ```

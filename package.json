@@ -1,19 +1,19 @@
 {
     "name": "flickr-crawler",
-    "version": "0.0.1",
+    "version": "0.0.4",
     "description": "Crawling Flickr Geotagged Photographs",
     "main": "index.js",
-    "bin": "./bin/bin.js",
+    "bin": "./bin.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "Shohei Yokoyama",
     "license": "MIT",
     "dependencies": {
-        "flickr-search": "^1.2.0",
-
+        "flickr-search": "^1.2.1",
         "log4js": "^1.1.0",
         "mongodb": "^2.2.11",
-        "posix-argv-parser": "^2.0.0"
+        "posix-argv-parser": "^2.0.0",
+        "readline-sync": "^1.4.5"
     }
 }
