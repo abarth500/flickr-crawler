@@ -1,16 +1,16 @@
 # Flickr-Crawler
 
 ## Install and Execution
-1. Install MongoDB.
+### [STEP.1] Install MongoDB.
 
-2. Install this.
+### [STEP.2] Install this.
 
 ```
 npm install flickr-crawler
 npm install -g forever
 ```
 
-3. Set Api Key of Flickr
+### [STEP.3] Set Api Key of Flickr
 * Find (or Create) Your API KEY
   * https://www.flickr.com/services/apps/
 * And Set the KEY
@@ -22,38 +22,17 @@ Your Flickr's API Secret? ****************************
 YES!
 ```
 
-4. Update parameter file (See ./parameter.json)
+### [STEP.4] Create your parameter file (See ./node_module/flickr-crawler/parameter.json)
 ```
-{
-    "static": [{
-            "tags": "abarth"
-        },
-        {
-            "tags": "fiat"
-        },
-        {
-            "tags": "aprilia"
-        }
-    ],
-    "bbox": [
-        [-180, -90, 180, 90]
-    ],
-    "timestamp": {
-        "start": 1420070400,
-        "finish": 1483228799,
-        "delta": 6000
-    },
-    "extras": [
-        "geo", "tags", "url_sq", "url_z"
-    ]
-}
+# cp ./node_module/flickr-crawler/parameter.json .
+# vi ./parameter.json
 ```
 
-5. Start crawling (See usage)
+### [STEP.5] Start crawling (See usage)
 
 ## Usage
 ```
-# forever start -m 1  $(npm bin)/flickr-crawler
+# node $(npm bin)/flickr-crawler
 ```
 
 ```
@@ -99,9 +78,8 @@ YES!
 # Start Crawling
 ## Execute
 ```
-# forever start -m 1 --workingDir . $(npm bin)/flickr-crawler -s mongodb://localhost:27017/test
+# forever start -m 1 --workingDir . $(npm bin)/flickr-crawler -s mongodb://localhost:27017/test -c ./parameter.json
 ```
-
 
 ## Log
 1. Check the path to the log file
