@@ -1,0 +1,23 @@
+{
+    "static": [{
+            "tags": "abarth"
+        },
+        {
+            "tags": "fiat"
+        },
+        {
+            "tags": "aprilia"
+        }
+    ],
+    "bbox": [
+        [-180, -90, 180, 90]
+    ],
+    "timestamp": {
+        "start": 1420070400,
+        "finish": 1483228799,
+        "delta": 6000
+    },
+    "extras": [
+        "geo", "tags", "url_sq", "url_z"
+    ]
+}

@@ -1,0 +1,7 @@
+{
+    "appenders": [{
+        "type": "console",
+        "category": "logging"
+    }],
+    "levels": { "logging": "INFO" }
+}
