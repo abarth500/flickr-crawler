@@ -6,7 +6,11 @@ var log4js = require('log4js');
 var log;
 
 exports.init = function(mongourl, callback) {
-    log4js.configure(__dirname + '/log4js.json');
+    if (fs.existsSync(process.cwd() + '/log4js.json')) {
+        log4js.configure(process.cwd() + '/log4js.json');
+    } else {
+        log4js.configure(__dirname + '/log4js.json');
+    }
     log = log4js.getLogger('logging');
     var MongoClient = require('mongodb').MongoClient;
     var url = mongourl; /*'mongodb://localhost:27017/sample1';*/
@@ -81,6 +85,11 @@ StorageMongoDB.prototype.setPhotos = function(photos, callback) {
     if (photos.length > 0) {
         async.each(photos, function(photo, next) {
             photo.tags = photo.tags.split(" ");
+            if (photo.tags.length = 1 && photo.tags[0] == "") {
+                photo.tags = [];
+            }
+            photo.longitude = parseFloat(photo.longitude);
+            photo.latitude = parseFloat(photo.latitude)
             photo.geotag = { type: "Point", coordinates: [parseFloat(photo.longitude), parseFloat(photo.latitude)] };
             log.trace("Insert PHOTO (" + photo.id + ")");
             next();

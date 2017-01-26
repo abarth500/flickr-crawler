@@ -3,7 +3,11 @@ var flickr = require('flickr-search');
 var log4js = require('log4js');
 
 exports.run = function(setting, params) {
-    log4js.configure(__dirname + '/log4js.json');
+    if (fs.existsSync(process.cwd() + '/log4js.json')) {
+        log4js.configure(process.cwd() + '/log4js.json');
+    } else {
+        log4js.configure(__dirname + '/log4js.json');
+    }
     var log = log4js.getLogger('logging');
     var storage = null;
     var url = require('url');

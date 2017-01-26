@@ -1,13 +1,17 @@
 var async = require('async');
 var pap = require("posix-argv-parser");
 var args = pap.create();
+var fs = require('fs');
 var log4js = require('log4js');
-log4js.configure(__dirname + '/log4js.json');
+if (fs.existsSync(process.cwd() + '/log4js.json')) {
+    log4js.configure(process.cwd() + '/log4js.json');
+} else {
+    log4js.configure(__dirname + '/log4js.json');
+}
 var log = log4js.getLogger('logging');
 
 async.waterfall([
     function(callback) {
-        var fs = require('fs')
         fs.stat(process.cwd() + "/api-key.json", function(err, stats) {
             if (err) {
                 var readlineSync = require('readline-sync');
