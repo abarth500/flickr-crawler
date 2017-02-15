@@ -1,6 +1,7 @@
 
 # Created by https://www.gitignore.io/api/visualstudiocode,typings
 
+
 ### VisualStudioCode ###
 .vscode/*
 
@@ -14,6 +15,7 @@ typings
 node_modules/*
 data/*
 
+npm-debug.log
 api-key.json
 out/*
 !out/.gitkeep
