@@ -37,7 +37,7 @@ StorageMongoDB.prototype.clearTasks = function(callback) {
             db.collection(colPhoto).dropIndexes(function() {
                 db.collection(colPhoto).createIndex({ id: 1 }, { unique: true }, function() {
                     db.collection(colPhoto).createIndex({ "geotag": "2dsphere" }, {}, function() {
-                        db.collection(colPhoto).createIndex({ tag: 1 }, {}, function() {
+                        db.collection(colPhoto).createIndex({ tags: 1 }, {}, function() {
                             db.collection(colTask).createIndex({ "cursor.current": 1 }, {}, callback);
                         });
                     });
