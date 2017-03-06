@@ -89,6 +89,7 @@ StorageMongoDB.prototype.setPhotos = function(photos, callback) {
             if (photo.tags.length = 1 && photo.tags[0] == "") {
                 photo.tags = [];
             }
+            photo.dateupload = parseInt(photo.dateupload);
             photo.longitude = parseFloat(photo.longitude);
             photo.latitude = parseFloat(photo.latitude)
             photo.geotag = { type: "Point", coordinates: [parseFloat(photo.longitude), parseFloat(photo.latitude)] };
