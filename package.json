@@ -1,6 +1,6 @@
 {
     "name": "flickr-crawler",
-    "version": "0.0.7",
+    "version": "0.0.9",
     "description": "Crawling Flickr Geotagged Photographs",
     "main": "index.js",
     "bin": "./bin.js",

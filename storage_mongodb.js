@@ -3,6 +3,7 @@ var colPhoto = 'flickr_photo';
 
 var async = require('async');
 var log4js = require('log4js');
+var fs = require('fs');
 var log;
 
 exports.init = function(mongourl, callback) {

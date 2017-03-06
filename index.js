@@ -1,6 +1,7 @@
 var async = require('async');
 var flickr = require('flickr-search');
 var log4js = require('log4js');
+var fs = require('fs');
 
 exports.run = function(setting, params) {
     if (fs.existsSync(process.cwd() + '/log4js.json')) {
