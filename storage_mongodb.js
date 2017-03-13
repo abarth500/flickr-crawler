@@ -86,7 +86,7 @@ StorageMongoDB.prototype.setPhotos = function(photos, callback) {
     if (photos.length > 0) {
         async.each(photos, function(photo, next) {
             photo.tags = photo.tags.split(" ");
-            if (photo.tags.length = 1 && photo.tags[0] == "") {
+            if (photo.tags.length == 1 && photo.tags[0] == "") {
                 photo.tags = [];
             }
             photo.dateupload = parseInt(photo.dateupload);
