@@ -85,16 +85,22 @@ StorageMongoDB.prototype.setPhotos = function(photos, callback) {
     log.trace("START-> setPhotos");
     if (photos.length > 0) {
         async.each(photos, function(photo, next) {
-            photo.tags = photo.tags.split(" ");
-            if (photo.tags.length == 1 && photo.tags[0] == "") {
-                photo.tags = [];
+            try {
+                photo.tags = photo.tags.split(" ");
+                if (photo.tags.length == 1 && photo.tags[0] == "") {
+                    photo.tags = [];
+                }
+                photo.dateupload = parseInt(photo.dateupload);
+                photo.longitude = parseFloat(photo.longitude);
+                photo.latitude = parseFloat(photo.latitude)
+                photo.geotag = { type: "Point", coordinates: [parseFloat(photo.longitude), parseFloat(photo.latitude)] };
+                log.trace("Insert PHOTO (" + photo.id + ")");
+            } catch (e) {
+                log.error("Insert ERROR (" + photo.id + ")");
+                log.trace(e.toString());
+            } finally {
+                next();
             }
-            photo.dateupload = parseInt(photo.dateupload);
-            photo.longitude = parseFloat(photo.longitude);
-            photo.latitude = parseFloat(photo.latitude)
-            photo.geotag = { type: "Point", coordinates: [parseFloat(photo.longitude), parseFloat(photo.latitude)] };
-            log.trace("Insert PHOTO (" + photo.id + ")");
-            next();
         }, function(err) {
             if (err) {
                 log.err(err);

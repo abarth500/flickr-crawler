@@ -18,6 +18,6 @@
         "delta": 6000
     },
     "extras": [
-        "geo", "tags", "url_sq", "url_z"
+        "geo", "tags", "description", "license", "date_taken", "url_sq", "url_z"
     ]
 }

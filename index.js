@@ -50,7 +50,7 @@ exports.run = function(setting, params) {
                             var p = {};
                             p["min_upload_date"] = task.cursor.current;
                             p["max_upload_date"] = task.cursor.current + task.cursor.window;
-                            /*p["sort"] = "date-posted-asc";*/
+                            p["sort"] = "date-posted-asc";
                             p["per_page"] = 250;
                             async.forEachOf(task.parameter, function(value, key, callback) {
                                 if (key != "_id") {
